@@ -20,6 +20,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
     }
   </style>
   <body>
@@ -28,17 +29,22 @@
         const currentPosition = navigator.geolocation.getCurrentPosition(
           ({ coords }) => {
             const position = document.getElementById('position');
-            position.innerText = JSON.stringify(
+            let div = document.createElement('div');
+            div.innerText = JSON.stringify(
               `[${coords.latitude},${coords.longitude}],${coords.accuracy}`,
               null,
               2,
             );
+            position.append(div);
+
             const a = document.createElement('a');
             a.target = '_blank';
             a.href = `https://yandex.ru/maps/?pt=${coords.longitude},${coords.latitude}&z=12&l=map`;
             a.title = 'Открыть карту';
             a.innerText = 'Открыть карту!';
-            position.append(a);
+            div = document.createElement('div');
+            div.append(a);
+            position.append(div);
           },
           (e) => {
             alert('Ошибка: ' + e.message);
